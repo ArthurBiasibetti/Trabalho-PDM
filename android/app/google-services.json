@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "510473543471",
+    "project_id": "olho-do-pai",
+    "storage_bucket": "olho-do-pai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510473543471:android:d3e39d98758cc7606a4bda",
+        "android_client_info": {
+          "package_name": "com.example.trabalho_pdm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510473543471-tbhqorrktk6ng8c1k3kisv31tml6abfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw9PGjcuc2SP5_KRx80I73bRdFS-7RYlI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510473543471-tbhqorrktk6ng8c1k3kisv31tml6abfa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "510473543471-6l2v77cibabc567css40id1gpcaipf66.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.trabalhoPdm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
