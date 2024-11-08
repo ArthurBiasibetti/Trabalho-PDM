@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as mt;
 import 'package:trabalho_pdm/components/customButton.dart';
 import 'package:trabalho_pdm/components/customTextfield.dart';
+import 'package:trabalho_pdm/utils/toastMessages.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -68,14 +69,10 @@ class _MapScreenState extends State<MapScreen> {
           ),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Endereço não encontrado')),
-        );
+        ToastMessage().warning(message: 'Endereço não encontrado');
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao buscar o endereço')),
-      );
+      ToastMessage().error(message: 'Erro ao buscar o endereço');
     }
   }
 
@@ -182,30 +179,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ],
             ),
-            // Positioned(
-            //   top: 32,
-            //   right: 24,
-            //   child: FloatingActionButton(
-            //     backgroundColor: Colors.white,
-            //     onPressed: getCurrentPosition,
-            //     child: const Icon(
-            //       Icons.my_location,
-            //       color: Colors.black,
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   bottom: 16,
-            //   left: 24,
-            //   child: FloatingActionButton(
-            //     backgroundColor: Colors.white,
-            //     onPressed: () => Navigator.pop(context, area),
-            //     child: const Icon(
-            //       Icons.check,
-            //       color: Colors.black,
-            //     ),
-            //   ),
-            // ),
           );
   }
 }

@@ -7,11 +7,14 @@ class PatientModel {
   final String address;
   final List<GeoPoint> area;
   String? code;
+  String? status;
   int? userId;
 
   PatientModel({
     this.id,
     this.userId,
+    this.status = 'inactive',
+    this.code,
     required this.name,
     required this.age,
     required this.address,
@@ -25,7 +28,8 @@ class PatientModel {
       "address": address,
       "area": area,
       "code": code,
-      "userId": userId
+      "userId": userId,
+      "status": status,
     };
   }
 }

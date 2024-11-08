@@ -1,15 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:trabalho_pdm/models/user_model.dart';
 import 'package:trabalho_pdm/pages/login_page.dart';
 import 'package:trabalho_pdm/pages/register_patient_page.dart';
+import 'package:trabalho_pdm/service/auth_service.dart';
 import 'package:trabalho_pdm/service/patient_service.dart';
+import 'package:trabalho_pdm/utils/toastMessages.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final User? userCredential = FirebaseAuth.instance.currentUser;
   final PatientService _pacienteService = PatientService();
+  UserModel? user;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    user = await AuthService().getUser();
+    setState(() {});
+  }
 
   Color _getStatusColor(String status) {
     switch (status) {
@@ -24,8 +44,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(userCredential);
-
     if (userCredential == null) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -36,19 +54,30 @@ class HomePage extends StatelessWidget {
       );
     }
 
+    if (user == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              );
+            onPressed: () async {
+              bool loggedOut = await AuthService().logout();
+
+              if (loggedOut) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
+              } else {
+                ToastMessage()
+                    .error(message: "Algo deu errado. Tente novamente!");
+              }
             },
             tooltip: 'Logout',
           ),
@@ -56,7 +85,7 @@ class HomePage extends StatelessWidget {
       ),
       body: SafeArea(
         child: StreamBuilder(
-          stream: _pacienteService.getPatients(),
+          stream: _pacienteService.getPatients(user!),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());

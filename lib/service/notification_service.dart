@@ -7,7 +7,7 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
 }
 
 class NotificationService {
-  final _notificationAPI = FirebaseMessaging.instance;
+  final FirebaseMessaging _notificationAPI = FirebaseMessaging.instance;
 
   Future<void> initNotification() async {
     await _notificationAPI.requestPermission();
@@ -15,5 +15,9 @@ class NotificationService {
 
     print("Token: $fCMToken");
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+  }
+
+  FirebaseMessaging getNotificationAPI() {
+    return _notificationAPI;
   }
 }

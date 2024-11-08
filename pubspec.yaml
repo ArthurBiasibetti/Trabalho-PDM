@@ -46,6 +46,7 @@ dependencies:
   maps_toolkit: ^3.0.0
   geocoding: ^3.0.0
   postgres: ^3.4.0
+  mongo_dart: ^0.10.3
 
 dev_dependencies:
   flutter_test:

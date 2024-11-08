@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trabalho_pdm/components/customButton.dart';
 import 'package:trabalho_pdm/components/customTextfield.dart';
-import 'package:trabalho_pdm/components/square_tile.dart';
 import 'package:trabalho_pdm/pages/home_page.dart';
+import 'package:trabalho_pdm/pages/patient_login_page.dart';
 import 'package:trabalho_pdm/pages/register_page.dart';
 import 'package:trabalho_pdm/service/auth_service.dart';
 import 'package:trabalho_pdm/utils/toastMessages.dart';
@@ -16,12 +16,27 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+          (route) => false,
+        );
+      });
+      return const SizedBox.shrink();
+    }
+
     void singIn() async {
       try {
         await FirebaseAuth.instance.signOut();
 
         await AuthService().signIn(
-            email: emailController.text, password: passwordController.text);
+          email: emailController.text,
+          password: passwordController.text,
+        );
 
         await Future.delayed(const Duration(seconds: 1));
 
@@ -102,7 +117,7 @@ class LoginPage extends StatelessWidget {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RegisterPage(),
+                        builder: (context) => PatientLoginPage(),
                       ),
                     ),
                     child: Text(
